@@ -6,8 +6,12 @@ public class Player : MonoBehaviour
 {
     float firstDir = 0f;
     int multiKey = 0;
+    public float speed;
+    public float ropeSpeed;
 
     public int ropeState = 0;
+
+    
 
     public GameObject facing;
     public Rope rope;
@@ -36,7 +40,7 @@ public class Player : MonoBehaviour
 
         if (ropeState != 0) input = 0;
 
-        transform.Translate(Vector2.right * input * 0.05f);
+        transform.Translate(Vector2.right * input * speed * Time.deltaTime);
 
         var mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
 

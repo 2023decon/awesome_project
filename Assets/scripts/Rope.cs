@@ -16,7 +16,7 @@ public class Rope : MonoBehaviour
     // Update is called once per frame
     void Update() {
         if (Player.Instance.ropeState == 1) {
-            MoveInDirection(Vector2.right, 35f);
+            MoveInDirection(Vector2.right, Player.Instance.ropeSpeed);
         }
 
         float distance = Vector2.Distance(hook.transform.position, Player.Instance.transform.position);
@@ -35,26 +35,6 @@ public class Rope : MonoBehaviour
             Destroy(hook);
             Destroy(gameObject);
         }
-    }
-    
-    public static Vector3 CalcFacingPos(Vector3 position, Vector2 rot, float dist, Vector3 offset)
-    {
-        Vector3 pos = new Vector3(position.x, position.y, position.z);
-
-        float radY = rot.y * Mathf.Deg2Rad;
-        float radX = rot.x * Mathf.Deg2Rad;
-
-        float y = -Mathf.Sin(radX) * dist;
-
-        float manipulator = Mathf.Cos(radX);
-        float x = -Mathf.Sin(radY) * manipulator * dist;
-        float z = Mathf.Cos(radY) * manipulator * dist;
-
-        pos.y += offset.y + y;
-        pos.x += offset.x + x;
-        pos.z += offset.z + z;
-
-        return pos;
     }
 
     public void MoveInDirection(Vector3 direction, float moveSpeed)

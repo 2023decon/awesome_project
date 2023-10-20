@@ -17,7 +17,7 @@ public class Hook : MonoBehaviour
 
     private void Update() {
         if (Player.Instance.ropeState == 2) {
-            Player.Instance.transform.position = Vector2.MoveTowards(Player.Instance.transform.position, transform.position, 0.5f);
+            Player.Instance.transform.position = Vector2.MoveTowards(Player.Instance.transform.position, transform.position, 0.25f);
 
             if (Vector2.Distance(Player.Instance.transform.position, transform.position) < 0.8f || Vector2.Distance(Player.Instance.transform.position - new Vector3(0, 0.5f), transform.position) < 0.8f) {
                 Player.Instance.ropeState = 0;
