@@ -11,10 +11,10 @@ TagManager:
   - tile
   - Water
   - UI
+  - enemy
   - player
   - rope
-  - 
-  - 
+  - ropeString
   - 
   - 
   - 
@@ -40,4 +40,19 @@ TagManager:
   m_SortingLayers:
   - name: Default
     uniqueID: 0
+    locked: 0
+  - name: tile
+    uniqueID: 3278400227
+    locked: 0
+  - name: enemy
+    uniqueID: 2320265305
+    locked: 0
+  - name: player
+    uniqueID: 1466279539
+    locked: 0
+  - name: objectUI
+    uniqueID: 2519744961
+    locked: 0
+  - name: ui
+    uniqueID: 1476558867
     locked: 0
