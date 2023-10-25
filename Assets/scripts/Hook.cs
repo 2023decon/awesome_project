@@ -19,6 +19,9 @@ public class Hook : MonoBehaviour
             if (enemy.status == StatusEffect.AIRBONE) {
                 Player.Instance.ropeState = 2;
                 Player.Instance.attackingAirbone = true;
+                enemy.statusDuration = 1f;
+
+                enemy.constraintPos = new Vector3(enemy.transform.position.x, enemy.transform.position.y, 1);
 
                 if (Player.Instance.transform.position.x > enemy.transform.position.x) {
                     transform.position = enemy.transform.position + new Vector3(1.25f, 0.5f);
@@ -31,7 +34,7 @@ public class Hook : MonoBehaviour
 
     private void Update() {
         if (Player.Instance.ropeState == 2) {
-            Player.Instance.transform.position = Vector2.MoveTowards(Player.Instance.transform.position, transform.position, 0.06f);
+            Player.Instance.transform.position = Vector2.MoveTowards(Player.Instance.transform.position, transform.position, 50f * Time.deltaTime);
 
             if (Vector2.Distance(Player.Instance.transform.position, transform.position) < 0.8f || Vector2.Distance(Player.Instance.transform.position - new Vector3(0, 0.5f), transform.position) < 0.8f) {
                 Player.Instance.ropeState = 0;

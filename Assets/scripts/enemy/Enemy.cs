@@ -33,7 +33,7 @@ public class Enemy : MonoBehaviour
     private float invincibility;
     private Rigidbody2D rbody;
 
-    private Vector3 constraintPos = Vector3.zero;
+    public Vector3 constraintPos = Vector3.zero;
 
     void Awake()
     {
@@ -57,10 +57,23 @@ public class Enemy : MonoBehaviour
         stackDisplay.value = (float)stack / maxStack;
 
         if (status == StatusEffect.AIRBONE) {
-            rbody.gravityScale = 0.02f;
 
-            if (constraintPos.z == 1) transform.position = new Vector2(constraintPos.x, transform.position.y);
-        } else {
+            if (constraintPos.z == 1)
+            {
+                rbody.gravityScale = 0.05f;
+                transform.position = new Vector2(constraintPos.x, constraintPos.y);
+            } else
+            {
+                rbody.gravityScale = 3f;
+            }
+        } if (status == StatusEffect.STUNNING)
+        {
+            if (constraintPos.z == 1)
+            {
+                //transform.position = new Vector2(constraintPos.x, constraintPos.y);
+            }
+        }
+        else {
             rbody.gravityScale = gravity;
         }
     }
@@ -77,7 +90,7 @@ public class Enemy : MonoBehaviour
                     stack++;
                 } else {
                     stack--;
-                    statusDuration = 2;
+                    statusDuration = 1f;
 
                     if (stack < 1) {
                         Debug.Log("return");
@@ -97,13 +110,28 @@ public class Enemy : MonoBehaviour
     }
 
     public void Flow() {
-        if (stack >= maxStack) {
+        if (stack >= maxStack && status == StatusEffect.DEFAULT) {
             stack = maxStack;
 
-            StartCoroutine(Become(StatusEffect.AIRBONE, 2));
+            StartCoroutine(Become(StatusEffect.AIRBONE, 2.5f));
 
-            if (Player.Instance.transform.position.x < transform.position.x) rbody.AddForce(Vector2.right * 15, ForceMode2D.Impulse);
-            else rbody.AddForce(Vector2.left * 15, ForceMode2D.Impulse);
+            if (Player.Instance.transform.position.x < transform.position.x) rbody.AddForce(Vector2.right * 6, ForceMode2D.Impulse);
+            else rbody.AddForce(Vector2.left * 6, ForceMode2D.Impulse);
+        }
+    }
+
+    public void Strike()
+    {
+        if (status == StatusEffect.AIRBONE)
+        {
+            int usedStack = maxStack - stack;
+
+            if (usedStack <= 0) return;
+
+            StartCoroutine(Become(StatusEffect.STUNNING, 0.5f * usedStack));
+
+            if (Player.Instance.transform.position.x < transform.position.x) rbody.AddForce(Vector2.right * 6, ForceMode2D.Impulse);
+            else rbody.AddForce(Vector2.left * 6, ForceMode2D.Impulse);
         }
     }
 
@@ -111,16 +139,18 @@ public class Enemy : MonoBehaviour
         status = status_;
         if (status != StatusEffect.DEFAULT) statusDuration = duration;
         else {
-            constraintPos = Vector2.zero;
+            constraintPos = Vector3.zero;
         }
 
         if (status == StatusEffect.AIRBONE) {
-            rbody.velocity = Vector2.up * 20;
+            rbody.velocity = Vector2.up * 15;
+        } 
 
-            yield return new WaitForSeconds(0.2f);
-            
-            constraintPos = new Vector3(transform.position.x, transform.position.y, 1);
-            rbody.velocity = Vector3.zero;
+        else if (status == StatusEffect.STUNNING)
+        {
+            rbody.velocity = Vector2.down * 30;
+
+            yield return new WaitForSeconds(0.3f);
         }
     }
 
