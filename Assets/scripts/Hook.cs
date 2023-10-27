@@ -9,6 +9,14 @@ public class Hook : MonoBehaviour
         if (Player.Instance.ropeState != 1) return;
 
         if ((LayerMask.GetMask("tile") & (1 << other.gameObject.layer)) != 0) {
+            if (Vector2.Distance(Player.Instance.transform.position + new Vector3(0, -1), transform.position) < 2f) {
+                Player.Instance.ropeState = 0;
+
+                Destroy(gameObject);
+                Destroy(Player.Instance.ropeNow.gameObject);
+
+                return;
+            }
             Player.Instance.ropeState = 2;
 
         }
@@ -34,7 +42,7 @@ public class Hook : MonoBehaviour
 
     private void Update() {
         if (Player.Instance.ropeState == 2) {
-            Player.Instance.transform.position = Vector2.MoveTowards(Player.Instance.transform.position, transform.position, 50f * Time.deltaTime);
+            Player.Instance.transform.position = Vector2.MoveTowards(Player.Instance.transform.position, transform.position + new Vector3(0, 1), 50f * Time.deltaTime);
 
             if (Vector2.Distance(Player.Instance.transform.position, transform.position) < 0.8f || Vector2.Distance(Player.Instance.transform.position - new Vector3(0, 0.5f), transform.position) < 0.8f) {
                 Player.Instance.ropeState = 0;

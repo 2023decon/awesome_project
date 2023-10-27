@@ -20,6 +20,7 @@ public class Player : MonoBehaviour
     public Rope rope;
     public Rope ropeNow;
     public GameObject hook;
+    public bool isJumping;
 
     public bool attackingAirbone = false;
 
@@ -34,6 +35,7 @@ public class Player : MonoBehaviour
     private Rigidbody2D rbody;
     private BoxCollider2D boxCollider;
     private SpriteRenderer spriteRenderer;
+    private Animator animator;
 
     private void Awake() {
         instance = this;
@@ -41,6 +43,7 @@ public class Player : MonoBehaviour
         rbody = GetComponent<Rigidbody2D>();
         boxCollider = GetComponent<BoxCollider2D>();
         spriteRenderer = GetComponent<SpriteRenderer>();
+        animator = GetComponent<Animator>();
     }
 
     void Update() {
@@ -48,7 +51,13 @@ public class Player : MonoBehaviour
 
         if (ropeState != 0) input = 0;
 
-        if (input != 0) direction = (int)input;
+        if (input != 0) {
+            direction = (int)input;
+
+            animator.SetBool("isRunning", true);
+        } else {
+            animator.SetBool("isRunning", false);
+        }
         float speed = moveSpeed;
 
         if (attackingAirbone) {
@@ -92,10 +101,23 @@ public class Player : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Space)) {
             Jump();
         }
+        if (isJumping) {
+            if (rbody.velocity.y > 0) {
+                animator.SetInteger("jumpState", 1);
+            } else {
+                animator.SetInteger("jumpState", 2);
+            }
+
+            if (rbody.velocity.y == 0) {
+                isJumping = false;
+            }
+        } else {
+            animator.SetInteger("jumpState", 0);
+        }
     }
 
     bool CheckIsObstacle(int dir) {
-        var cols = Physics2D.OverlapBoxAll(transform.position + new Vector3(boxCollider.offset.x, boxCollider.offset.y) + new Vector3(0.1f * dir, 1f, 0), boxCollider.size / 2, 0, LayerMask.GetMask("tile"));
+        var cols = Physics2D.OverlapBoxAll(transform.position + new Vector3(boxCollider.offset.x, boxCollider.offset.y) + new Vector3(0.6f * dir, 0.8f, 0), boxCollider.size / 2, 0, LayerMask.GetMask("tile"));
 
         bool isExists = false;
         if (cols.Length > 0)
@@ -120,8 +142,8 @@ public class Player : MonoBehaviour
     void CastRope() {
             ropeState = 1;
 
-            ropeNow = Instantiate(rope, transform.position + new Vector3(0, 0.5f), Quaternion.identity);
-            var hk = Instantiate(hook, transform.position + new Vector3(0, 0.5f), Quaternion.identity);
+            ropeNow = Instantiate(rope, transform.position + new Vector3(0, -1.5f), Quaternion.identity);
+            var hk = Instantiate(hook, transform.position + new Vector3(0, -1.5f), Quaternion.identity);
 
             hk.transform.rotation = facing.transform.rotation;
             ropeNow.hook = hk;
@@ -184,6 +206,8 @@ public class Player : MonoBehaviour
 
     void Jump() {
         rbody.velocity = new Vector2(0, 10);
+
+        isJumping = true;
     }
 
     float GetAxisRaw(KeyCode key1, KeyCode key2) {
