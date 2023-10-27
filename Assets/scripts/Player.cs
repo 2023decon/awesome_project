@@ -57,7 +57,13 @@ public class Player : MonoBehaviour
 
             CheckAirbone();
         } else {
-            rbody.gravityScale = gravity;
+            if (ropeState == 2)
+            {
+                rbody.gravityScale = 0.5f;
+            } else
+            {
+                rbody.gravityScale = gravity;
+            }
         }
 
         spriteRenderer.flipX = (direction == -1);
@@ -76,6 +82,10 @@ public class Player : MonoBehaviour
             }
             else if (Input.GetKeyDown(KeyCode.W)) {
                 if (!attackingAirbone) FlowAttack();
+            }
+            else if (Input.GetKeyDown(KeyCode.S))
+            {
+                if (attackingAirbone) StrikeAttack();
             }
         }
 
@@ -134,6 +144,19 @@ public class Player : MonoBehaviour
         if (enemy == null) return;
 
         enemy.GetComponent<Enemy>().Flow();
+    }
+
+    void StrikeAttack()
+    {
+        if (!attackingAirbone)
+        {
+            return;
+        }
+
+        var enemy = Physics2D.OverlapCircle(transform.position + new Vector3(boxCollider.offset.x, boxCollider.offset.y) + new Vector3(2f * direction, 1f, 0), 1.5f, LayerMask.GetMask("enemy"));
+        if (enemy == null) return;
+
+        enemy.GetComponent<Enemy>().Strike();
     }
 
     void CheckAirbone() {
