@@ -33,12 +33,14 @@ public class Player : MonoBehaviour
 
     private Rigidbody2D rbody;
     private BoxCollider2D boxCollider;
+    private SpriteRenderer spriteRenderer;
 
     private void Awake() {
         instance = this;
 
         rbody = GetComponent<Rigidbody2D>();
         boxCollider = GetComponent<BoxCollider2D>();
+        spriteRenderer = GetComponent<SpriteRenderer>();
     }
 
     void Update() {
@@ -57,6 +59,8 @@ public class Player : MonoBehaviour
         } else {
             rbody.gravityScale = gravity;
         }
+
+        spriteRenderer.flipX = (direction == -1);
 
         if (!CheckIsObstacle(direction)) transform.position = new Vector2(transform.position.x + input * speed * Time.deltaTime, transform.position.y);
 
@@ -81,7 +85,7 @@ public class Player : MonoBehaviour
     }
 
     bool CheckIsObstacle(int dir) {
-        var cols = Physics2D.OverlapBoxAll(transform.position + new Vector3(boxCollider.offset.x, boxCollider.offset.y) + new Vector3(0.3f * dir, 0.2f, 0), boxCollider.size / 2, 0, LayerMask.GetMask("tile"));
+        var cols = Physics2D.OverlapBoxAll(transform.position + new Vector3(boxCollider.offset.x, boxCollider.offset.y) + new Vector3(0.1f * dir, 1f, 0), boxCollider.size / 2, 0, LayerMask.GetMask("tile"));
 
         bool isExists = false;
         if (cols.Length > 0)
@@ -115,7 +119,7 @@ public class Player : MonoBehaviour
 
     void MeleeAttack() {
         float coefficient = 1.00f;  //일반 공격 계수
-        var enemies = Physics2D.OverlapCircleAll(transform.position + new Vector3(boxCollider.offset.x, boxCollider.offset.y) + new Vector3(3 * direction, 0.2f, 0), 1.5f, LayerMask.GetMask("enemy"));
+        var enemies = Physics2D.OverlapCircleAll(transform.position + new Vector3(boxCollider.offset.x, boxCollider.offset.y) + new Vector3(2 * direction, 0.2f, 0), 1.5f, LayerMask.GetMask("enemy"));
 
         for (int i = 0; i < enemies.Length; i++) {
             var enemy = enemies[i];
@@ -126,7 +130,7 @@ public class Player : MonoBehaviour
     }
 
     void FlowAttack() {
-        var enemy = Physics2D.OverlapCircle(transform.position + new Vector3(boxCollider.offset.x, boxCollider.offset.y) + new Vector3(3f * direction, 0.2f, 0), 1.5f, LayerMask.GetMask("enemy"));
+        var enemy = Physics2D.OverlapCircle(transform.position + new Vector3(boxCollider.offset.x, boxCollider.offset.y) + new Vector3(2f * direction, 0.2f, 0), 1.5f, LayerMask.GetMask("enemy"));
         if (enemy == null) return;
 
         enemy.GetComponent<Enemy>().Flow();
@@ -166,46 +170,11 @@ public class Player : MonoBehaviour
         if (Input.GetKey(key1))
         {
             dir = -1f;
-
-            if (Input.GetKeyDown(key1))
-            {
-                multiKey++;
-            }
-
-            if (multiKey == 1)
-            {
-                firstDir = -1;
-            }
         }
 
         if (Input.GetKey(key2))
         {
             dir = 1f;
-
-            if (Input.GetKeyDown(key2))
-            {
-                multiKey++;
-            }
-
-            if (multiKey == 2)
-            {
-                firstDir = 1;
-            }
-        }
-
-        if (multiKey == 2)
-        {
-            dir = -firstDir;
-        }
-
-        if (Input.GetKeyUp(key1) || Input.GetKeyUp(key2))
-        {
-            multiKey--;
-        }
-
-        if (multiKey == 0)
-        {
-            dir = 0;
         }
 
         return dir;
