@@ -9,12 +9,16 @@ public enum StatusEffect {
     DEFAULT = 0,
     AIRBONE = 1,
     STUNNING = 2,
+    CHASING = 3,
+    ATTACK = 4,
 }
 
 public class Enemy : MonoBehaviour
 {
 
     public float moveSpeed;
+    public float detectRange;
+    public float attackRange;
 
     public StatusEffect status;
     public float statusDuration;
@@ -34,6 +38,8 @@ public class Enemy : MonoBehaviour
     private Rigidbody2D rbody;
 
     public Vector3 constraintPos = Vector3.zero;
+
+    public GameObject player;
 
     void Awake()
     {
@@ -66,15 +72,26 @@ public class Enemy : MonoBehaviour
             {
                 rbody.gravityScale = 3f;
             }
-        } if (status == StatusEffect.STUNNING)
+        }
+        if (status == StatusEffect.STUNNING)
         {
             if (constraintPos.z == 1)
             {
                 //transform.position = new Vector2(constraintPos.x, constraintPos.y);
             }
         }
+        else if (status == StatusEffect.CHASING)
+        {
+            Chase();
+        }
         else {
             rbody.gravityScale = gravity;
+        }
+        if (attackRange < Vector2.Distance(player.transform.position, transform.position)
+                /*&& Vector2.Distance(player.transform.position, transform.position) <= detectRange*/)
+        {
+            status = StatusEffect.CHASING;
+            statusDuration = 3.0f;
         }
     }
 
@@ -135,6 +152,26 @@ public class Enemy : MonoBehaviour
         }
     }
 
+    public void Chase()
+    {
+        if(status == StatusEffect.CHASING)
+        {
+            if (player.transform.position.x < transform.position.x)
+                rbody.velocity = Vector2.left * moveSpeed;
+            else if (player.transform.position.x > transform.position.x)
+                rbody.velocity = Vector2.right * moveSpeed;
+
+            if (attackRange >= Vector2.Distance(player.transform.position, transform.position)
+                /*|| Vector2.Distance(player.transform.position, transform.position) > detectRange*/)
+            {
+                statusDuration = 0f;
+                status = StatusEffect.DEFAULT;
+                rbody.velocity = Vector2.zero;
+                Debug.Log(status);
+            }
+        }
+    }
+
     public IEnumerator Become(StatusEffect status_, float duration = 0) {
         status = status_;
         if (status != StatusEffect.DEFAULT) statusDuration = duration;
@@ -156,4 +193,13 @@ public class Enemy : MonoBehaviour
 
     public virtual void OnHurt(int damage, bool succeed){}
     public virtual void OnDeath(){}
+
+    private void OnTriggerStay2D(Collider2D collision)
+    {
+        if (collision.CompareTag("JumpSensor"))
+        {
+            //rbody.gravityScale = 1;
+            //rbody.AddForce(Vector2.up * 15, ForceMode2D.Impulse);
+        }
+    }
 }
