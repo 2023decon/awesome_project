@@ -38,7 +38,7 @@ public class Hook : MonoBehaviour
                 }
             }
         }
-    }
+    }//test
 
     private void Update() {
         if (Player.Instance.ropeState == 2) {
