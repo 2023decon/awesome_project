@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 
 public class Hook : MonoBehaviour
@@ -17,6 +18,13 @@ public class Hook : MonoBehaviour
 
                 return;
             }
+
+            if (transform.position.x < Player.Instance.transform.position.x) {
+                Player.Instance.direction = -1;
+            } else {
+                Player.Instance.direction = 1;
+            }
+            
             Player.Instance.ropeState = 2;
 
         }
@@ -33,8 +41,10 @@ public class Hook : MonoBehaviour
 
                 if (Player.Instance.transform.position.x > enemy.transform.position.x) {
                     transform.position = enemy.transform.position + new Vector3(1.25f, 0.5f);
+                    Player.Instance.direction = -1;
                 } else {
                     transform.position = enemy.transform.position + new Vector3(-1.25f, 0.5f);
+                    Player.Instance.direction = 1;
                 }
             }
         }
@@ -42,7 +52,7 @@ public class Hook : MonoBehaviour
 
     private void Update() {
         if (Player.Instance.ropeState == 2) {
-            Player.Instance.transform.position = Vector2.MoveTowards(Player.Instance.transform.position, transform.position + new Vector3(0, 1), 50f * Time.deltaTime);
+            Player.Instance.transform.position = Vector2.MoveTowards(Player.Instance.transform.position, transform.position + new Vector3(0, 1), 0.05f);
 
             if (Vector2.Distance(Player.Instance.transform.position, transform.position) < 0.8f || Vector2.Distance(Player.Instance.transform.position - new Vector3(0, 0.5f), transform.position) < 0.8f) {
                 Player.Instance.ropeState = 0;
