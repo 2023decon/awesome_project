@@ -11,6 +11,7 @@ public class Player : MonoBehaviour
     public int attackDamage;
     public float ropeSpeed;
     public float gravity;
+    public bool additionalJump;
 
     public int ropeState = 0;
 
@@ -44,6 +45,8 @@ public class Player : MonoBehaviour
         boxCollider = GetComponent<BoxCollider2D>();
         spriteRenderer = GetComponent<SpriteRenderer>();
         animator = GetComponent<Animator>();
+
+        additionalJump = true;
     }
 
     void Update() {
@@ -51,7 +54,7 @@ public class Player : MonoBehaviour
 
         if (ropeState != 0) input = 0;
 
-        if (input != 0) {
+        if (input != 0 && ropeState == 0) {
             direction = (int)input;
 
             animator.SetBool("isRunning", true);
@@ -68,9 +71,11 @@ public class Player : MonoBehaviour
         } else {
             if (ropeState == 2)
             {
+                animator.SetBool("rope", true);
                 rbody.gravityScale = 0.5f;
             } else
             {
+                animator.SetBool("rope", false);
                 rbody.gravityScale = gravity;
             }
         }
@@ -98,8 +103,16 @@ public class Player : MonoBehaviour
             }
         }
 
+        bool isOnGround = CheckIsGround();
+
+        if (isOnGround) additionalJump = true;
+
         if (Input.GetKeyDown(KeyCode.Space)) {
-            Jump();
+            if (isOnGround) Jump();
+            else if (additionalJump) {
+                additionalJump = false;
+                Jump();
+            }
         }
         if (isJumping) {
             if (rbody.velocity.y > 0) {
@@ -128,6 +141,18 @@ public class Player : MonoBehaviour
         return isExists;
     }
 
+        bool CheckIsGround() {
+        var cols = Physics2D.OverlapCircleAll(transform.position + new Vector3(0, -1.5f), 1f, LayerMask.GetMask("tile"));
+
+        bool isExists = false;
+        if (cols.Length > 0)
+        {
+            isExists = true;
+        }
+
+        return isExists;
+    }
+
     void SetFacingCursor() {
         var mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
 
@@ -140,16 +165,18 @@ public class Player : MonoBehaviour
     }
 
     void CastRope() {
-            ropeState = 1;
+        ropeState = 1;
 
-            ropeNow = Instantiate(rope, transform.position + new Vector3(0, -1.5f), Quaternion.identity);
-            var hk = Instantiate(hook, transform.position + new Vector3(0, -1.5f), Quaternion.identity);
+        ropeNow = Instantiate(rope, transform.position + new Vector3(0, -1.5f), Quaternion.identity);
+        var hk = Instantiate(hook, transform.position + new Vector3(0, -1.5f), Quaternion.identity);
 
-            hk.transform.rotation = facing.transform.rotation;
-            ropeNow.hook = hk;
+        hk.transform.rotation = facing.transform.rotation;
+        ropeNow.hook = hk;
     }
 
     void MeleeAttack() {
+        animator.ResetTrigger("kick");
+        animator.SetTrigger("kick");
         float coefficient = 1.00f;  //일반 공격 계수
         var enemies = Physics2D.OverlapCircleAll(transform.position + new Vector3(boxCollider.offset.x, boxCollider.offset.y) + new Vector3(2 * direction, 0.2f, 0), 1.5f, LayerMask.GetMask("enemy"));
 
@@ -162,6 +189,7 @@ public class Player : MonoBehaviour
     }
 
     void FlowAttack() {
+        animator.SetTrigger("kick");
         var enemy = Physics2D.OverlapCircle(transform.position + new Vector3(boxCollider.offset.x, boxCollider.offset.y) + new Vector3(2f * direction, 0.2f, 0), 1.5f, LayerMask.GetMask("enemy"));
         if (enemy == null) return;
 
@@ -205,7 +233,7 @@ public class Player : MonoBehaviour
     }
 
     void Jump() {
-        rbody.velocity = new Vector2(0, 10);
+        rbody.velocity = new Vector2(0, 12);
 
         isJumping = true;
     }

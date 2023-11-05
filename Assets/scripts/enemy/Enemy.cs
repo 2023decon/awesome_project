@@ -32,6 +32,7 @@ public class Enemy : MonoBehaviour
     public int maxStack;
     public bool useStack = true;
     public float gravity;
+    public bool isOutRange;
 
     //time of invincibility
     private float invincibility;
@@ -39,12 +40,16 @@ public class Enemy : MonoBehaviour
 
     public Vector3 constraintPos = Vector3.zero;
 
-    public GameObject player;
+    public Player player;
 
     void Awake()
     {
         status = StatusEffect.DEFAULT;
         rbody = GetComponent<Rigidbody2D>();
+    }
+
+    void Start() {
+        player = Player.Instance;
     }
 
     // Update is called once per frame
@@ -80,18 +85,20 @@ public class Enemy : MonoBehaviour
                 //transform.position = new Vector2(constraintPos.x, constraintPos.y);
             }
         }
-        else if (status == StatusEffect.CHASING)
-        {
-            Chase();
-        }
+        // else if (status == StatusEffect.CHASING)
+        // {
+        //     Chase();
+        // }
         else {
             rbody.gravityScale = gravity;
         }
-        if (attackRange < Vector2.Distance(player.transform.position, transform.position)
-                /*&& Vector2.Distance(player.transform.position, transform.position) <= detectRange*/)
+
+        isOutRange = attackRange < Vector2.Distance(player.transform.position, transform.position); 
+        
+        if (isOutRange && status == StatusEffect.DEFAULT
+            /*&& Vector2.Distance(player.transform.position, transform.position) <= detectRange*/)
         {
-            status = StatusEffect.CHASING;
-            statusDuration = 3.0f;
+            Chase();
         }
     }
 
@@ -110,10 +117,13 @@ public class Enemy : MonoBehaviour
                     statusDuration = 1f;
 
                     if (stack < 1) {
-                        Debug.Log("return");
                         StartCoroutine(Become(StatusEffect.DEFAULT));
                     }
                 }
+            }
+
+            if (health <= 0) {
+                Destroy(gameObject);
             }
 
             OnHurt(damage, true);
@@ -127,13 +137,13 @@ public class Enemy : MonoBehaviour
     }
 
     public void Flow() {
-        if (stack >= maxStack && status == StatusEffect.DEFAULT) {
+        if (stack >= maxStack && (status == StatusEffect.DEFAULT || status == StatusEffect.CHASING)) {
             stack = maxStack;
 
             StartCoroutine(Become(StatusEffect.AIRBONE, 2.5f));
 
-            if (Player.Instance.transform.position.x < transform.position.x) rbody.AddForce(Vector2.right * 6, ForceMode2D.Impulse);
-            else rbody.AddForce(Vector2.left * 6, ForceMode2D.Impulse);
+            if (Player.Instance.transform.position.x < transform.position.x) rbody.AddForce(Vector2.right * 5, ForceMode2D.Impulse);
+            else rbody.AddForce(Vector2.left * 5, ForceMode2D.Impulse);
         }
     }
 
@@ -154,21 +164,18 @@ public class Enemy : MonoBehaviour
 
     public void Chase()
     {
-        if(status == StatusEffect.CHASING)
-        {
-            if (player.transform.position.x < transform.position.x)
-                rbody.velocity = Vector2.left * moveSpeed;
-            else if (player.transform.position.x > transform.position.x)
-                rbody.velocity = Vector2.right * moveSpeed;
+        if (player.transform.position.x < transform.position.x)
+            rbody.velocity = new Vector2(-moveSpeed, rbody.velocity.y);
+        else if (player.transform.position.x > transform.position.x)
+            rbody.velocity = new Vector2(moveSpeed, rbody.velocity.y);
 
-            if (attackRange >= Vector2.Distance(player.transform.position, transform.position)
-                /*|| Vector2.Distance(player.transform.position, transform.position) > detectRange*/)
-            {
-                statusDuration = 0f;
-                status = StatusEffect.DEFAULT;
-                rbody.velocity = Vector2.zero;
-                Debug.Log(status);
-            }
+        if (attackRange >= Vector2.Distance(player.transform.position, transform.position)
+            /*|| Vector2.Distance(player.transform.position, transform.position) > detectRange*/)
+        {
+            statusDuration = 0f;
+            status = StatusEffect.DEFAULT;
+            rbody.velocity = Vector2.zero;
+            Debug.Log(status);
         }
     }
 
@@ -180,7 +187,7 @@ public class Enemy : MonoBehaviour
         }
 
         if (status == StatusEffect.AIRBONE) {
-            rbody.velocity = Vector2.up * 15;
+            rbody.velocity = Vector2.up * 13;
         } 
 
         else if (status == StatusEffect.STUNNING)

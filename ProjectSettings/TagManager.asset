@@ -51,6 +51,9 @@ TagManager:
   - name: player
     uniqueID: 1466279539
     locked: 0
+  - name: rope
+    uniqueID: 2787401307
+    locked: 0
   - name: objectUI
     uniqueID: 2519744961
     locked: 0
