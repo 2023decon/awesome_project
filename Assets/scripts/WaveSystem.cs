@@ -41,6 +41,8 @@ public class WaveSystem : MonoBehaviour
                 timer = 0;
                 Spawn(wave[0]);
                 repeat++;
+                timer = 0;
+                
                 if (repeat > wave[0].repeat) {
                     wave.Remove(wave[0]);
                     repeat = 0;
