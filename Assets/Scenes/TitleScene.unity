@@ -501,6 +501,9 @@ MonoBehaviour:
   startButton: {fileID: 476365949}
   start_default: {fileID: 21300000, guid: 40d9f83cffe9ad845bc1a51bd26f9bc7, type: 3}
   start_hover: {fileID: 21300000, guid: 8d71c7aebebf59748b20cbe4c40c9f5f, type: 3}
+  quitButton: {fileID: 0}
+  quit_default: {fileID: 0}
+  quit_hover: {fileID: 0}
   lab: {fileID: 845073325}
   background: {fileID: 472738662}
 --- !u!1 &1137232935

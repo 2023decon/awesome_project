@@ -26,7 +26,8 @@ public class WaveSystem : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        wave.Add(new EnemyWave(0, 0, 0, 1, 0));
+        wave.Add(new EnemyWave(0, 3, 0, 1, 0));
+        wave.Add(new EnemyWave(0, -1, 0, 8, 3));
     }
 
     // Update is called once per frame
@@ -37,6 +38,7 @@ public class WaveSystem : MonoBehaviour
         if (wave.Count > 0) {
             if (timer >= wave[0].time)
             {
+                timer = 0;
                 Spawn(wave[0]);
                 repeat++;
                 timer = 0;
@@ -51,6 +53,7 @@ public class WaveSystem : MonoBehaviour
 
     private void Spawn(EnemyWave ew)
     {
+        transform.position = new Vector2(ew.posX, ew.posY);
         Instantiate(enemyPrefabs[ew.type]);
     }
 }
