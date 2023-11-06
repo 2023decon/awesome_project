@@ -5,8 +5,8 @@ using UnityEngine.UIElements;
 
 public class Player : MonoBehaviour
 {
-    float firstDir = 0f;
-    int multiKey = 0;
+    public int health;
+    public int maxHealth;
     public float moveSpeed;
     public int attackDamage;
     public float ropeSpeed;
@@ -47,6 +47,8 @@ public class Player : MonoBehaviour
         animator = GetComponent<Animator>();
 
         additionalJump = true;
+
+        health = maxHealth;
     }
 
     void Update() {
@@ -127,6 +129,10 @@ public class Player : MonoBehaviour
         } else {
             animator.SetInteger("jumpState", 0);
         }
+
+        // if (ropeState == 0) {
+        //     transform.rotation = quaternion.Euler(new Vector3(transform.rotation.x, transform.rotation.y, 0));
+        // }
     }
 
     bool CheckIsObstacle(int dir) {
@@ -167,16 +173,18 @@ public class Player : MonoBehaviour
     void CastRope() {
         ropeState = 1;
 
-        ropeNow = Instantiate(rope, transform.position + new Vector3(0, -1.5f), Quaternion.identity);
+        ropeNow = Instantiate(rope, transform.position + new Vector3(0, -1.8f), Quaternion.identity);
         var hk = Instantiate(hook, transform.position + new Vector3(0, -1.5f), Quaternion.identity);
 
         hk.transform.rotation = facing.transform.rotation;
         ropeNow.hook = hk;
+
+        //transform.rotation = quaternion.Euler(new Vector3(transform.rotation.x, transform.rotation.y, facing.transform.rotation.z + 7));
     }
 
     void MeleeAttack() {
-        animator.ResetTrigger("kick");
-        animator.SetTrigger("kick");
+        animator.ResetTrigger("attack");
+        animator.SetTrigger("attack");
         float coefficient = 1.00f;  //일반 공격 계수
         var enemies = Physics2D.OverlapCircleAll(transform.position + new Vector3(boxCollider.offset.x, boxCollider.offset.y) + new Vector3(2 * direction, 0.2f, 0), 1.5f, LayerMask.GetMask("enemy"));
 
@@ -189,6 +197,7 @@ public class Player : MonoBehaviour
     }
 
     void FlowAttack() {
+        animator.ResetTrigger("kick");
         animator.SetTrigger("kick");
         var enemy = Physics2D.OverlapCircle(transform.position + new Vector3(boxCollider.offset.x, boxCollider.offset.y) + new Vector3(2f * direction, 0.2f, 0), 1.5f, LayerMask.GetMask("enemy"));
         if (enemy == null) return;
@@ -230,6 +239,15 @@ public class Player : MonoBehaviour
             attackingAirbone = false;
             Cam.Instance.OutAirbone();
         }
+    }
+
+    public void Hurt(int damage) {
+        health -= damage;
+
+        animator.ResetTrigger("hurt");
+        animator.SetTrigger("hurt");
+
+        DamageHandler.Instance.ShowDamage(damage, transform.position + new Vector3(-0.5f + UnityEngine.Random.Range(0f, 1f), 1f), Color.red);
     }
 
     void Jump() {

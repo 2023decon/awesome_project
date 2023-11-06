@@ -19,6 +19,7 @@ public class Enemy : MonoBehaviour
     public float moveSpeed;
     public float detectRange;
     public float attackRange;
+    public int attackDamage;
 
     public StatusEffect status;
     public float statusDuration;
@@ -37,6 +38,7 @@ public class Enemy : MonoBehaviour
     //time of invincibility
     private float invincibility;
     private Rigidbody2D rbody;
+    private SpriteRenderer spriteRenderer;
 
     public Vector3 constraintPos = Vector3.zero;
 
@@ -46,15 +48,16 @@ public class Enemy : MonoBehaviour
     {
         status = StatusEffect.DEFAULT;
         rbody = GetComponent<Rigidbody2D>();
-    }
-
-    void Start() {
-        player = Player.Instance;
+        spriteRenderer = GetComponent<SpriteRenderer>();
     }
 
     // Update is called once per frame
     void FixedUpdate()
     {
+        if (player == null) {
+            player = Player.Instance;
+        }
+
         if (invincibility > 0) {
             invincibility -= Time.fixedDeltaTime;
         }
@@ -164,12 +167,16 @@ public class Enemy : MonoBehaviour
 
     public void Chase()
     {
-        if (player.transform.position.x < transform.position.x)
+        if (player.transform.position.x < transform.position.x) {
             rbody.velocity = new Vector2(-moveSpeed, rbody.velocity.y);
-        else if (player.transform.position.x > transform.position.x)
+            spriteRenderer.flipX = true;
+        }
+        else if (player.transform.position.x > transform.position.x) {
             rbody.velocity = new Vector2(moveSpeed, rbody.velocity.y);
+            spriteRenderer.flipX = false;
+        }
 
-        if (attackRange >= Vector2.Distance(player.transform.position, transform.position)
+        if (attackRange >= Vector2.Distance(new Vector2(player.transform.position.x, transform.position.y), transform.position)
             /*|| Vector2.Distance(player.transform.position, transform.position) > detectRange*/)
         {
             statusDuration = 0f;

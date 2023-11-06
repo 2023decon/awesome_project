@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 6c3b0a7896caea44aa8489d09551f8be
+guid: 3ed132bbedff3704d82f266479032de5
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -47,7 +47,7 @@ TextureImporter:
   spriteMeshType: 1
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
-  spritePixelsToUnits: 205
+  spritePixelsToUnits: 45
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
   spriteGenerateFallbackPhysicsShape: 1
   alphaUsage: 1
@@ -114,18 +114,6 @@ TextureImporter:
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
   - serializedVersion: 3
-    buildTarget: iPhone
-    maxTextureSize: 2048
-    resizeAlgorithm: 0
-    textureFormat: -1
-    textureCompression: 1
-    compressionQuality: 50
-    crunchedCompression: 0
-    allowsAlphaSplitting: 0
-    overridden: 0
-    androidETC2FallbackOverride: 0
-    forceMaximumCompressionQuality_BC6H_BC7: 0
-  - serializedVersion: 3
     buildTarget: WebGL
     maxTextureSize: 2048
     resizeAlgorithm: 0
@@ -141,13 +129,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: mob_1_attack_0
+      name: mob_1_hurt_0
       rect:
         serializedVersion: 2
         x: 0
         y: 0
-        width: 1120
-        height: 1120
+        width: 239
+        height: 240
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -155,20 +143,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: b89dbd47bc3f44c43b6afb8dbaa0ace2
-      internalID: -2096391120
+      spriteID: 02bae198a1bb58d47acd9de9badca435
+      internalID: 93789434
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: mob_1_attack_1
+      name: mob_1_hurt_1
       rect:
         serializedVersion: 2
-        x: 1120
+        x: 239
         y: 0
-        width: 1120
-        height: 1120
+        width: 239
+        height: 240
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -176,20 +164,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 36478401048848645802edeca9a47fee
-      internalID: -138304228
+      spriteID: af7e76404d72f664aaef125c64ebe54d
+      internalID: -1897497614
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: mob_1_attack_2
+      name: mob_1_hurt_2
       rect:
         serializedVersion: 2
-        x: 2240
+        x: 478
         y: 0
-        width: 1120
-        height: 1120
+        width: 239
+        height: 240
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -197,20 +185,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 1c60d2134104b0f43980a848183186c6
-      internalID: 1930506271
+      spriteID: 2a2f7416fae01994a8c3973c74f31e74
+      internalID: -1351660264
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: mob_1_attack_3
+      name: mob_1_hurt_3
       rect:
         serializedVersion: 2
-        x: 3360
+        x: 717
         y: 0
-        width: 1120
-        height: 1120
+        width: 239
+        height: 240
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -218,8 +206,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 086da27941a6f3d41a9f9f4d21a0b3ce
-      internalID: -1762363021
+      spriteID: 2dfad44a6ce16d546a0e5861dfafd583
+      internalID: 1341975023
       vertices: []
       indices: 
       edges: []
@@ -235,10 +223,10 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      mob_1_attack_0: -2096391120
-      mob_1_attack_1: -138304228
-      mob_1_attack_2: 1930506271
-      mob_1_attack_3: -1762363021
+      mob_1_hurt_0: 93789434
+      mob_1_hurt_1: -1897497614
+      mob_1_hurt_2: -1351660264
+      mob_1_hurt_3: 1341975023
   spritePackingTag: 
   pSDRemoveMatte: 0
   pSDShowRemoveMatteOption: 0

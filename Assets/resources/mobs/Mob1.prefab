@@ -292,6 +292,7 @@ GameObject:
   - component: {fileID: 8788215753223580100}
   - component: {fileID: 8788215753223580096}
   - component: {fileID: 8788215753223580097}
+  - component: {fileID: 6262945391110762850}
   m_Layer: 6
   m_Name: Mob1
   m_TagString: Untagged
@@ -379,9 +380,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6695f1db768248344a54fb32733129c0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  moveSpeed: 6
+  moveSpeed: 4
   detectRange: 8
   attackRange: 4
+  attackDamage: 10
   status: 0
   statusDuration: 0
   stackDisplay: {fileID: 8788215751642966837}
@@ -391,8 +393,10 @@ MonoBehaviour:
   maxStack: 5
   useStack: 1
   gravity: 2
+  isOutRange: 0
   constraintPos: {x: 0, y: 0, z: 0}
   player: {fileID: 0}
+  atkDelay: 1
 --- !u!61 &8788215753223580096
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -440,6 +444,27 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 1
   m_Constraints: 4
+--- !u!95 &6262945391110762850
+Animator:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8788215753223580101}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: c643f465d2684894cb2b8580c9a27bb9, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!1 &8788215753265902950
 GameObject:
   m_ObjectHideFlags: 0

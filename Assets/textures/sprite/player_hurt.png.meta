@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 6c3b0a7896caea44aa8489d09551f8be
+guid: 831f228e93cbc0047a3f638fd015b7df
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -114,18 +114,6 @@ TextureImporter:
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
   - serializedVersion: 3
-    buildTarget: iPhone
-    maxTextureSize: 2048
-    resizeAlgorithm: 0
-    textureFormat: -1
-    textureCompression: 1
-    compressionQuality: 50
-    crunchedCompression: 0
-    allowsAlphaSplitting: 0
-    overridden: 0
-    androidETC2FallbackOverride: 0
-    forceMaximumCompressionQuality_BC6H_BC7: 0
-  - serializedVersion: 3
     buildTarget: WebGL
     maxTextureSize: 2048
     resizeAlgorithm: 0
@@ -141,13 +129,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: mob_1_attack_0
+      name: player_hurt_0
       rect:
         serializedVersion: 2
         x: 0
         y: 0
-        width: 1120
-        height: 1120
+        width: 959
+        height: 960
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -155,20 +143,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: b89dbd47bc3f44c43b6afb8dbaa0ace2
-      internalID: -2096391120
+      spriteID: 774abdbbed48b1c4dbba1463839db238
+      internalID: -875512252
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: mob_1_attack_1
+      name: player_hurt_1
       rect:
         serializedVersion: 2
-        x: 1120
+        x: 959
         y: 0
-        width: 1120
-        height: 1120
+        width: 959
+        height: 960
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -176,20 +164,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 36478401048848645802edeca9a47fee
-      internalID: -138304228
+      spriteID: 5b9553ea37300734ba320ad8eb0ac6dc
+      internalID: 2096901251
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: mob_1_attack_2
+      name: player_hurt_2
       rect:
         serializedVersion: 2
-        x: 2240
+        x: 1918
         y: 0
-        width: 1120
-        height: 1120
+        width: 959
+        height: 960
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -197,20 +185,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 1c60d2134104b0f43980a848183186c6
-      internalID: 1930506271
+      spriteID: 3c7c81b4b83c5c546bf09273c9613ba2
+      internalID: -798243746
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: mob_1_attack_3
+      name: player_hurt_3
       rect:
         serializedVersion: 2
-        x: 3360
+        x: 2877
         y: 0
-        width: 1120
-        height: 1120
+        width: 959
+        height: 960
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -218,8 +206,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 086da27941a6f3d41a9f9f4d21a0b3ce
-      internalID: -1762363021
+      spriteID: e6210bd366ae0bd4fa8278924c3714c8
+      internalID: -1063111849
       vertices: []
       indices: 
       edges: []
@@ -235,10 +223,10 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      mob_1_attack_0: -2096391120
-      mob_1_attack_1: -138304228
-      mob_1_attack_2: 1930506271
-      mob_1_attack_3: -1762363021
+      player_hurt_0: -875512252
+      player_hurt_1: 2096901251
+      player_hurt_2: -798243746
+      player_hurt_3: -1063111849
   spritePackingTag: 
   pSDRemoveMatte: 0
   pSDShowRemoveMatteOption: 0
