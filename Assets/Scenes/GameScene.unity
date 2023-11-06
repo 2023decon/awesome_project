@@ -20945,7 +20945,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1525552d82c741444b863d70cac57681, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  health: 0
+  health: 100
   maxHealth: 0
   moveSpeed: 10
   attackDamage: 10
@@ -21363,6 +21363,7 @@ MonoBehaviour:
   useStack: 1
   gravity: 2
   isOutRange: 0
+  spriteRenderer: {fileID: 0}
   constraintPos: {x: 0, y: 0, z: 0}
   player: {fileID: 1791566022}
   atkDelay: 0
