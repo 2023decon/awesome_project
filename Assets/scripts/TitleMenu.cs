@@ -29,6 +29,9 @@ public class TitleMenu : MonoBehaviour
     public void OnStart() {
         tick = 0;
 
+        startButton.gameObject.SetActive(false);
+        quitButton.gameObject.SetActive(false);
+
         StartCoroutine(_onStart());
     }
 
