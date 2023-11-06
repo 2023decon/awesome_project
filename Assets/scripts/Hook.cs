@@ -52,9 +52,9 @@ public class Hook : MonoBehaviour
 
     private void Update() {
         if (Player.Instance.ropeState == 2) {
-            Player.Instance.transform.position = Vector2.MoveTowards(Player.Instance.transform.position, transform.position + new Vector3(0, 1), 0.05f);
+            Player.Instance.transform.position = Vector2.MoveTowards(Player.Instance.transform.position, transform.position + new Vector3(0, 1), 40f * Time.deltaTime);
 
-            if (Vector2.Distance(Player.Instance.transform.position, transform.position) < 0.8f || Vector2.Distance(Player.Instance.transform.position - new Vector3(0, 0.5f), transform.position) < 0.8f) {
+            if (Vector2.Distance(Player.Instance.transform.position, transform.position) < 1f || Vector2.Distance(Player.Instance.transform.position - new Vector3(0, 0.5f), transform.position) < 1f) {
                 Player.Instance.ropeState = 0;
                 
                 Destroy(gameObject);
