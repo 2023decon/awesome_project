@@ -38,7 +38,7 @@ public class Enemy : MonoBehaviour
     //time of invincibility
     private float invincibility;
     private Rigidbody2D rbody;
-    private SpriteRenderer spriteRenderer;
+    public SpriteRenderer spriteRenderer;
 
     public Vector3 constraintPos = Vector3.zero;
 
