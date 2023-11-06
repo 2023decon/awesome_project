@@ -2,6 +2,7 @@ using System.Collections;
 using Unity.Mathematics;
 using UnityEngine;
 using UnityEngine.UIElements;
+using UnityEngine.SceneManagement;
 
 public class Player : MonoBehaviour
 {
@@ -52,6 +53,10 @@ public class Player : MonoBehaviour
     }
 
     void Update() {
+        if(health <= 0)
+        {
+            SceneManager.LoadScene("GameOver");
+        }
         float input = GetAxisRaw(KeyCode.A, KeyCode.D);
 
         if (ropeState != 0) input = 0;
